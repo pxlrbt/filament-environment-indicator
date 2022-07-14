@@ -14,7 +14,7 @@ Never confuse your tabs with different Filament environments again.
 
 ## Installation via Composer
 
-**Requires PHP > 8.0 and Filament > 2.10.34**
+**Requires PHP > 8.0 and Filament > 2.9.15**
 
 ```bash
 composer require pxlrbt/filament-environment-indicator
