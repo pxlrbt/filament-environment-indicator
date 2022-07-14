@@ -1,0 +1,42 @@
+{
+    "name": "pxlrbt/filament-environment-indicator",
+    "description": "Indicator for the current environment inside Filament",
+    "license": "MIT",
+    "keywords": [
+        "environment indicator",
+        "filament",
+        "laravel-filament"
+    ],
+    "authors": [
+        {
+            "name": "Dennis Koch",
+            "email": "info@pixelarbeit.de"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "filament/filament": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "pxlrbt\\FilamentEnvironmentIndicator\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\pxlrbt\\FilamentEnvironmentIndicator\\FilamentEnvironmentIndicatorServiceProvider"
+            ]
+        }
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.6"
+    },
+    "scripts": {
+        "cs-fixer": "vendor/bin/php-cs-fixer fix --diff",
+        "style": [
+            "@cs-fixer",
+            "@phpstan"
+        ]
+    }
+}
