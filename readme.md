@@ -24,8 +24,7 @@ composer require pxlrbt/filament-environment-indicator
 
 Out of the box, this plugin adds a colored border to the top of the admin panel and a badge next to the search bar.
 
-You can customize any behaviour, by using Filament's `::configureUsing()` syntax:
-
+You can customize any behaviour, by using Filament's `::configureUsing()` syntax inside your ServiceProviders `boot()` method.
 
 ### Visibility
 
