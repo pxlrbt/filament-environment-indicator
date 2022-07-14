@@ -12,8 +12,11 @@ class FilamentEnvironmentIndicator
     use Configurable;
 
     public Closure $color;
+
     public Closure $visible;
+
     public Closure $showBadge;
+
     public Closure $showBorder;
 
     protected function setUp(): void
@@ -26,7 +29,7 @@ class FilamentEnvironmentIndicator
 
     public static function boot(): void
     {
-        $self = new static;
+        $self = new static();
         $self->configure();
 
         if (! ($self->visible)()) {
