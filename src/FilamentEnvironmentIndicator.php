@@ -91,7 +91,7 @@ class FilamentEnvironmentIndicator
         }
 
         if (method_exists($user, 'hasRole')) {
-            return $user->has('super_admin');
+            return $user->hasRole('super_admin');
         }
 
         return true;
