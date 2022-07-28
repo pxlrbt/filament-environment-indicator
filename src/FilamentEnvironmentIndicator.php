@@ -54,7 +54,7 @@ class FilamentEnvironmentIndicator
 
         Filament::registerRenderHook('global-search.start', fn () => new HtmlString('
             <div
-                class="hidden sm:flex items-center h-10 rounded-lg px-3 text-sm font-medium"
+                class="hidden sm:flex items-center h-10 rounded-lg px-3 dark:text-white text-sm font-medium"
                 style="background-color: ' . $color . '; margin-right: 1rem"
             >'
                 . ucfirst(app()->environment()) .
