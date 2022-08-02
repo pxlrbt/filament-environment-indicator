@@ -54,8 +54,8 @@ class FilamentEnvironmentIndicator
         }
 
         Filament::registerRenderHook('global-search.start', fn () => View::make('filament-environment-indicator::badge', [
-			'color' => $color,
-			'environment' => ucfirst(app()->environment())
+            'color' => $color,
+            'environment' => ucfirst(app()->environment())
         ]));
     }
 

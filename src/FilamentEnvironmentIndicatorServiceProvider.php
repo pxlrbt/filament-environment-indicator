@@ -10,15 +10,15 @@ class FilamentEnvironmentIndicatorServiceProvider extends PluginServiceProvider
 {
     public static string $name = 'filament-environment-indicator';
 
-	public function configurePackage(Package $package): void
-	{
-		$package
-			->name(static::$name)
-			->hasViews();
-	}
+    public function configurePackage(Package $package): void
+    {
+        $package
+            ->name(static::$name)
+            ->hasViews();
+    }
 
 
-	public function packageBooted(): void
+    public function packageBooted(): void
     {
         Filament::serving(fn () => FilamentEnvironmentIndicator::boot());
     }
