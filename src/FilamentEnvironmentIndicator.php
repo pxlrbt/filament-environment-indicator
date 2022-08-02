@@ -53,12 +53,10 @@ class FilamentEnvironmentIndicator
             return;
         }
 
-		$view = View::make('filament-environment-indicator::badge',[
-			"color" => $color,
-			"environment" => ucfirst(app()->environment())
-			])->render();
-
-        Filament::registerRenderHook('global-search.start', fn () => new HtmlString($view));
+        Filament::registerRenderHook('global-search.start', fn () => View::make('filament-environment-indicator::badge', [
+			'color' => $color,
+			'environment' => ucfirst(app()->environment())
+        ]));
     }
 
     public function injectBorderStyle(): void
