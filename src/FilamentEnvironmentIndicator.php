@@ -5,6 +5,7 @@ namespace pxlrbt\FilamentEnvironmentIndicator;
 use Closure;
 use Filament\Facades\Filament;
 use Filament\Support\Concerns\Configurable;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\HtmlString;
 
 class FilamentEnvironmentIndicator
@@ -52,14 +53,10 @@ class FilamentEnvironmentIndicator
             return;
         }
 
-        Filament::registerRenderHook('global-search.start', fn () => new HtmlString('
-            <div
-                class="hidden sm:flex items-center h-10 rounded-lg px-3 text-white text-sm font-medium"
-                style="background-color: ' . $color . '; margin-right: 1rem"
-            >'
-                . ucfirst(app()->environment()) .
-            '</div>
-        '));
+        Filament::registerRenderHook('global-search.start', fn () => View::make('filament-environment-indicator::badge', [
+            'color' => $color,
+            'environment' => ucfirst(app()->environment()),
+        ]));
     }
 
     public function injectBorderStyle(): void
