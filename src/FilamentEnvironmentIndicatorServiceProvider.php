@@ -8,12 +8,12 @@ use Spatie\LaravelPackageTools\Package;
 
 class FilamentEnvironmentIndicatorServiceProvider extends PluginServiceProvider
 {
-    public static string $name = 'Filament Environment Indicator';
+    public static string $name = 'filament-environment-indicator';
 
 	public function configurePackage(Package $package): void
 	{
 		$package
-			->name('filament-environment-indicator')
+			->name(static::$name)
 			->hasViews();
 	}
 
