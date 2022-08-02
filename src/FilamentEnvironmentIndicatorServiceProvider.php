@@ -14,7 +14,6 @@ class FilamentEnvironmentIndicatorServiceProvider extends PluginServiceProvider
 	{
 		$package
 			->name('filament-environment-indicator')
-			->hasConfigFile()
 			->hasViews();
 	}
 
