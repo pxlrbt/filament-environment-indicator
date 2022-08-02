@@ -17,7 +17,6 @@ class FilamentEnvironmentIndicatorServiceProvider extends PluginServiceProvider
             ->hasViews();
     }
 
-
     public function packageBooted(): void
     {
         Filament::serving(fn () => FilamentEnvironmentIndicator::boot());
