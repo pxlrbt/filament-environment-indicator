@@ -35,7 +35,9 @@ Use `php artisan vendor:publish --tag="filament-environment-indicator-views"` to
 By default, the package checks whether you have Spatie permissions plugin installed and checks for a role called `super_admin`. You can further customize whether the indicators should be shown.
 
 ```php
- FilamentEnvironmentIndicator::configureUsing(function (FilamentEnvironmentIndicator $indicator) {
+use pxlrbt\FilamentEnvironmentIndicator\FilamentEnvironmentIndicator;
+
+FilamentEnvironmentIndicator::configureUsing(function (FilamentEnvironmentIndicator $indicator) {
     $indicator->visible = fn () => auth()->user()?->can('see_indicator');
 }, isImportant: true);
 ```
@@ -45,7 +47,9 @@ By default, the package checks whether you have Spatie permissions plugin instal
 You can overwrite the default colors if you want your own colors or need to add more. The color accepts any CSS color value.
 
 ```php
- FilamentEnvironmentIndicator::configureUsing(function (FilamentEnvironmentIndicator $indicator) {
+use pxlrbt\FilamentEnvironmentIndicator\FilamentEnvironmentIndicator;
+
+FilamentEnvironmentIndicator::configureUsing(function (FilamentEnvironmentIndicator $indicator) {
     $indicator->color = fn () => match (app()->environment()) {
         'production' => null,
         'staging' => 'orange',
@@ -59,7 +63,9 @@ You can overwrite the default colors if you want your own colors or need to add 
 By default, both indicators are displayed. You can turn them off separately.
 
 ```php
- FilamentEnvironmentIndicator::configureUsing(function (FilamentEnvironmentIndicator $indicator) {
+use pxlrbt\FilamentEnvironmentIndicator\FilamentEnvironmentIndicator;
+
+FilamentEnvironmentIndicator::configureUsing(function (FilamentEnvironmentIndicator $indicator) {
     $indicator->showBadge = fn () => false;
     $indicator->showBorder = fn () => true;
 }, isImportant: true);
