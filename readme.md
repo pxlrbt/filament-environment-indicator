@@ -5,7 +5,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/pxlrbt/filament-environment-indicator.svg?include_prereleases)](https://packagist.org/packages/pxlrbt/filament-environment-indicator)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.md)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/pxlrbt/filament-environment-indicator/Code%20Style?label=code%20style)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/pxlrbt/filament-environment-indicator/code-style.yml?branch=main&label=Code%20style&style=flat-square)
 [![Total Downloads](https://img.shields.io/packagist/dt/pxlrbt/filament-environment-indicator.svg)](https://packagist.org/packages/pxlrbt/filament-environment-indicator)
 
 Never confuse your tabs with different Filament environments again.
