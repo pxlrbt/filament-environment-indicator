@@ -33,6 +33,6 @@
         }
     },
     "scripts": {
-        "pint": "vendor/bin/pint",
+        "pint": "vendor/bin/pint"
     }
 }
