@@ -71,7 +71,7 @@ class EnvironmentIndicatorPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $panel->renderHook('global-search.start', function () {
+        $panel->renderHook('panels::global-search.start', function () {
             if (! $this->evaluate($this->visible)) {
                 return '';
             }
@@ -86,7 +86,7 @@ class EnvironmentIndicatorPlugin implements Plugin
             ]);
         });
 
-        $panel->renderHook('styles.end', function () {
+        $panel->renderHook('panels::styles.after', function () {
             if (! $this->evaluate($this->visible)) {
                 return '';
             }

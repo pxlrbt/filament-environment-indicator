@@ -2,7 +2,6 @@
 
 namespace pxlrbt\FilamentEnvironmentIndicator;
 
-use Filament\Facades\Filament;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 
