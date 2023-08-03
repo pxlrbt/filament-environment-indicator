@@ -15,7 +15,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "filament/filament": "^2.9.15"
+        "filament/filament": "^3.0-stable"
     },
     "require-dev": {
         "laravel/pint": "^1.10"

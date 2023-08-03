@@ -2,11 +2,10 @@
 
 namespace pxlrbt\FilamentEnvironmentIndicator;
 
-use Filament\Facades\Filament;
-use Filament\PluginServiceProvider;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 
-class FilamentEnvironmentIndicatorServiceProvider extends PluginServiceProvider
+class FilamentEnvironmentIndicatorServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'filament-environment-indicator';
 
@@ -15,10 +14,5 @@ class FilamentEnvironmentIndicatorServiceProvider extends PluginServiceProvider
         $package
             ->name(static::$name)
             ->hasViews();
-    }
-
-    public function packageBooted(): void
-    {
-        Filament::serving(fn () => FilamentEnvironmentIndicator::boot());
     }
 }

@@ -14,18 +14,33 @@ Never confuse your tabs with different Filament environments again.
 
 ## Installation via Composer
 
-**Requires PHP > 8.0 and Filament > 2.9.15**
+| Plugin Version | Filament Version | PHP Version |
+|----------------|-----------------|-------------|
+| 1.x            | ^2.9.15   | \> 8.0      |
+| 2.x            | 3.x             | \> 8.1      |
 
 ```bash
 composer require pxlrbt/filament-environment-indicator
+```
+
+## Usage
+
+To use this plugin register it in your panel configuration:
+
+```php
+use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
+
+$panel
+    ->plugins([
+        EnvironmentIndicatorPlugin::make(),
+    ]);
 ```
 
 ## Configuration
 
 Out of the box, this plugin adds a colored border to the top of the admin panel and a badge next to the search bar.
 
-
-You can customize any behaviour, by using Filament's `::configureUsing()` syntax inside your ServiceProviders `boot()` method.
+You can customize any behaviour via the plugin object.
 
 ### Customizing the view
 Use `php artisan vendor:publish --tag="filament-environment-indicator-views"` to publish the view to the `resources/views/vendor/filament-environment-indicator` folder. After this you can customize it as you wish!
@@ -35,27 +50,30 @@ Use `php artisan vendor:publish --tag="filament-environment-indicator-views"` to
 By default, the package checks whether you have Spatie permissions plugin installed and checks for a role called `super_admin`. You can further customize whether the indicators should be shown.
 
 ```php
-use pxlrbt\FilamentEnvironmentIndicator\FilamentEnvironmentIndicator;
+use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
 
-FilamentEnvironmentIndicator::configureUsing(function (FilamentEnvironmentIndicator $indicator) {
-    $indicator->visible = fn () => auth()->user()?->can('see_indicator');
-}, isImportant: true);
+$panel->plugins([
+    EnvironmentIndicatorPlugin::make()
+        ->visible(fn () => auth()->user()?->can('see_indicator'))
+]);
 ```
 
 ### Colors
 
-You can overwrite the default colors if you want your own colors or need to add more. The color accepts any CSS color value.
+You can overwrite the default colors if you want your own colors or need to add more. The `->color()`method accepts any Filament's Color object or a closure that returns a color object.
 
 ```php
-use pxlrbt\FilamentEnvironmentIndicator\FilamentEnvironmentIndicator;
+use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
+use Filament\Support\Colors\Color;
 
-FilamentEnvironmentIndicator::configureUsing(function (FilamentEnvironmentIndicator $indicator) {
-    $indicator->color = fn () => match (app()->environment()) {
-        'production' => null,
-        'staging' => 'orange',
-        default => 'blue',
-    };
-}, isImportant: true);
+$panel->plugins([
+    EnvironmentIndicatorPlugin::make()
+        ->color(fn () => match (app()->environment()) {
+            'production' => null,
+            'staging' => Color::Orange,
+            default => Color::Blue,
+        })
+]);
 ```
 
 ### Indicators
@@ -63,12 +81,14 @@ FilamentEnvironmentIndicator::configureUsing(function (FilamentEnvironmentIndica
 By default, both indicators are displayed. You can turn them off separately.
 
 ```php
-use pxlrbt\FilamentEnvironmentIndicator\FilamentEnvironmentIndicator;
+use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
+use Filament\Support\Colors\Color;
 
-FilamentEnvironmentIndicator::configureUsing(function (FilamentEnvironmentIndicator $indicator) {
-    $indicator->showBadge = fn () => false;
-    $indicator->showBorder = fn () => true;
-}, isImportant: true);
+$panel->plugins([
+    EnvironmentIndicatorPlugin::make()
+        ->showBadge(false)
+        ->showBorder(true)            
+]);
 ```
 
 ## Contributing
