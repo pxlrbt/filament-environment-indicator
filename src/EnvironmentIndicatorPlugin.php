@@ -3,11 +3,9 @@
 namespace pxlrbt\FilamentEnvironmentIndicator;
 
 use Closure;
-use Filament\Facades\Filament;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
-use Filament\Support\Concerns\Configurable;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\HtmlString;
@@ -20,7 +18,7 @@ class EnvironmentIndicatorPlugin implements Plugin
     public bool | Closure | null $showBadge = null;
     public bool | Closure | null $showBorder = null;
 
-    public string | Closure | null $color = null;
+    public array | Closure | null $color = null;
 
     public static function make(): static
     {
@@ -99,7 +97,7 @@ class EnvironmentIndicatorPlugin implements Plugin
                 <style>
                     .fi-topbar,
                     .fi-sidebar {
-                        border-top: 5px solid {$this->getColor()} !important;
+                        border-top: 5px solid rgb({$this->getColor()['500']}) !important;
                     }
 
                     .fi-topbar {
@@ -131,17 +129,15 @@ class EnvironmentIndicatorPlugin implements Plugin
         return $this;
     }
 
-    public function color(string|array|Closure $color = Color::Pink): static
+    public function color(array|Closure $color = Color::Pink): static
     {
         $this->color = $color;
 
         return $this;
     }
 
-    protected function getColor(): array|string
+    protected function getColor(): array
     {
-        $color = $this->evaluate($this->color);
-
-        return is_array($color) ? 'rgb(' . $color['500'] . ')' : $color;
+        return $this->evaluate($this->color);
     }
 }

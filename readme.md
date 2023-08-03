@@ -60,24 +60,8 @@ $panel->plugins([
 
 ### Colors
 
-You can overwrite the default colors if you want your own colors or need to add more. The color accepts any CSS color value or Filament's Color object.
+You can overwrite the default colors if you want your own colors or need to add more. The `->color()`method accepts any Filament's Color object or a closure that returns a color object.
 
-**CSS Value:**
-
-```php
-use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
-
-$panel->plugins([
-    EnvironmentIndicatorPlugin::make()
-        ->color(fn () => match (app()->environment()) {
-            'production' => null,
-            'staging' => 'orange',
-            default => 'blue',
-        })
-]);
-```
-
-**Color Object:**
 ```php
 use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
 use Filament\Support\Colors\Color;
