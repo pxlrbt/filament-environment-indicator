@@ -14,11 +14,13 @@ class EnvironmentIndicatorPlugin implements Plugin
 {
     use EvaluatesClosures;
 
-    public bool | Closure | null $visible = null;
-    public bool | Closure | null $showBadge = null;
-    public bool | Closure | null $showBorder = null;
+    public bool|Closure|null $visible = null;
 
-    public array | Closure | null $color = null;
+    public bool|Closure|null $showBadge = null;
+
+    public bool|Closure|null $showBorder = null;
+
+    public array|Closure|null $color = null;
 
     public static function make(): static
     {
