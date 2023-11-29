@@ -42,7 +42,7 @@ class EnvironmentIndicatorPlugin implements Plugin
         $plugin->color(fn () => match (app()->environment()) {
             'production' => Color::Red,
             'staging' => Color::Orange,
-            'development' => Color::Blue,
+            'development', 'local' => Color::Blue,
             default => Color::Pink,
         });
 
