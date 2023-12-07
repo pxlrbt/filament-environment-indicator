@@ -1,4 +1,4 @@
-![header](./.github/resources/header.png)
+![header](./.github/resources/pxlrbt-environment-indicator.png)
 
 
 # Filament Environment Indicator
