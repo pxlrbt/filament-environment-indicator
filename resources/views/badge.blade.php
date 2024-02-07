@@ -13,4 +13,8 @@
     "
 >
     {{ $environment }}
+    @if(isset($branch))
+        <code class="">&nbsp;({{ $branch }})</code>
+    @endif
+
 </div>
