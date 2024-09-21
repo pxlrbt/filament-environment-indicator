@@ -47,12 +47,12 @@ class EnvironmentIndicatorPlugin implements Plugin
         });
 
         $plugin->showBadge(fn () => match (app()->environment()) {
-            'production', 'prod' => false,
+            'production' => false,
             default => true,
         });
 
         $plugin->showBorder(fn () => match (app()->environment()) {
-            'production', 'prod' => false,
+            'production' => false,
             default => true,
         });
 
