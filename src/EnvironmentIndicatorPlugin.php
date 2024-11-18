@@ -9,6 +9,7 @@ use Filament\Support\Colors\Color;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\HtmlString;
+use Throwable;
 
 class EnvironmentIndicatorPlugin implements Plugin
 {
@@ -21,6 +22,8 @@ class EnvironmentIndicatorPlugin implements Plugin
     public bool|Closure|null $showBorder = null;
 
     public array|Closure|null $color = null;
+
+    public bool|Closure|null $showGitBranch = null;
 
     public static function make(): static
     {
@@ -83,6 +86,7 @@ class EnvironmentIndicatorPlugin implements Plugin
             return View::make('filament-environment-indicator::badge', [
                 'color' => $this->getColor(),
                 'environment' => ucfirst(app()->environment()),
+                'branch' => $this->getGitBranch()
             ]);
         });
 
@@ -131,6 +135,13 @@ class EnvironmentIndicatorPlugin implements Plugin
         return $this;
     }
 
+    public function showGitBranch(bool|Closure $showGitBranch = true): static
+    {
+        $this->showGitBranch = $showGitBranch;
+
+        return $this;
+    }
+
     public function color(array|Closure $color = Color::Pink): static
     {
         $this->color = $color;
@@ -141,5 +152,18 @@ class EnvironmentIndicatorPlugin implements Plugin
     protected function getColor(): array
     {
         return $this->evaluate($this->color);
+    }
+
+    protected function getGitBranch(): ?string
+    {
+        if (! $this->evaluate($this->showGitBranch)) {
+            return null;
+        }
+
+        try {
+            return trim(exec('git branch --show-current'));
+        } catch (Throwable $th) {
+            return null;
+        }
     }
 }

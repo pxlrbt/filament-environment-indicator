@@ -13,4 +13,8 @@
     "
 >
     {{ $environment }}
+
+    @isset($branch)
+        <code class="text-xs ml-1" style="margin-top: 1px">({{ $branch }})</code>
+    @endisset
 </div>
