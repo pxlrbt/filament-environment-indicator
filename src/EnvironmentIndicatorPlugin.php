@@ -9,6 +9,7 @@ use Filament\Support\Colors\Color;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\HtmlString;
+use Throwable;
 
 class EnvironmentIndicatorPlugin implements Plugin
 {
@@ -158,9 +159,10 @@ class EnvironmentIndicatorPlugin implements Plugin
         if (! $this->evaluate($this->showGitBranch)) {
             return null;
         }
+
         try {
             return trim(exec('git branch --show-current'));
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return null;
         }
     }
