@@ -86,7 +86,7 @@ class EnvironmentIndicatorPlugin implements Plugin
             return View::make('filament-environment-indicator::badge', [
                 'color' => $this->getColor(),
                 'environment' => ucfirst(app()->environment()),
-                'branch' => $this->getGitBranch()
+                'branch' => $this->getGitBranch(),
             ]);
         });
 
