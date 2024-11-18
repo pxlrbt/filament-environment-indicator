@@ -91,6 +91,20 @@ $panel->plugins([
 ]);
 ```
 
+### Git Branch
+
+You can enable the display of the current git branch in the badge via `->showGitBranch()`. This requires the `exec()` function to be enabled in your PHP configuration.
+
+```php
+use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
+use Filament\Support\Colors\Color;
+
+$panel->plugins([
+    EnvironmentIndicatorPlugin::make()
+        ->showGitBranch()                    
+]);
+```
+
 ## Contributing
 
 If you want to contribute to this packages, you may want to test it in a real Filament project:
