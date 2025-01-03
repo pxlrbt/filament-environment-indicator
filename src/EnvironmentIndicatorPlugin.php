@@ -49,15 +49,9 @@ class EnvironmentIndicatorPlugin implements Plugin
             default => Color::Pink,
         });
 
-        $plugin->showBadge(fn () => match (app()->environment()) {
-            'production' => false,
-            default => true,
-        });
+        $plugin->showBadge(true);
 
-        $plugin->showBorder(fn () => match (app()->environment()) {
-            'production' => false,
-            default => true,
-        });
+        $plugin->showBorder(true);
 
         return $plugin;
     }
