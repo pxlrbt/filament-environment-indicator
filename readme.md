@@ -78,7 +78,7 @@ $panel->plugins([
 
 ### Indicators
 
-By default, both indicators are displayed. You can turn them off separately.
+By default, both indicators are displayed on non-production environments. You can turn them off separately.
 
 ```php
 use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
