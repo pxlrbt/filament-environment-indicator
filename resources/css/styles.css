@@ -1,0 +1,14 @@
+.environment-indicator {
+    display: none;
+    height: 2.25rem;
+
+    @media (width > 40rem) {
+        display: flex;
+    }
+
+    code {
+        margin-block-start: 1px;
+        margin-inline-start: 0.25rem;
+        font-size: var(--text-xs);
+    }
+}

@@ -15,9 +15,10 @@ Never confuse your tabs with different Filament environments again.
 ## Installation via Composer
 
 | Plugin Version | Filament Version | PHP Version |
-|----------------|-----------------|-------------|
-| 1.x            | ^2.9.15   | \> 8.0      |
-| 2.x            | 3.x             | \> 8.1      |
+|----------------|------------------|-------------|
+| 1.x            | ^2.9.15          | \> 8.0      |
+| 2.x            | 3.x              | \> 8.1      |
+| 3.x            | 4.x              | \> 8.1      |
 
 ```bash
 composer require pxlrbt/filament-environment-indicator
