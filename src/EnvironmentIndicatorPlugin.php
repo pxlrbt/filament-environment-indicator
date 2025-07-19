@@ -51,19 +51,19 @@ class EnvironmentIndicatorPlugin implements Plugin
             default => Color::Pink,
         });
 
-        $plugin->showBadge(fn () => match (app()->environment()) {
-            'production' => false,
-            default => true,
-        });
-
-        $plugin->showBorder(fn () => match (app()->environment()) {
-            'production' => false,
-            default => true,
-        });
-
         $plugin->checkDebugInProduction(fn () => match (app()->environment()) {
             'production' => true,
             default => false,
+        });
+
+        $plugin->showBadge(fn () => $plugin->isDebugModeInProduction() || match (app()->environment()) {
+            'production' => false,
+            default => true,
+        });
+
+        $plugin->showBorder(fn () => $plugin->isDebugModeInProduction() || match (app()->environment()) {
+            'production' => false,
+            default => true,
         });
 
         return $plugin;
@@ -84,10 +84,6 @@ class EnvironmentIndicatorPlugin implements Plugin
         $panel->renderHook('panels::global-search.before', function () {
             if (! $this->evaluate($this->visible)) {
                 return '';
-            }
-
-            if ($this->isDebugModeInProduction()) {
-                $this->showBorder();
             }
 
             if (! $this->evaluate($this->showBadge)) {

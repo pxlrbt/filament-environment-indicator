@@ -1,6 +1,5 @@
 ![header](./.github/resources/pxlrbt-environment-indicator.png)
 
-
 # Filament Environment Indicator
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/pxlrbt/filament-environment-indicator.svg?include_prereleases)](https://packagist.org/packages/pxlrbt/filament-environment-indicator)
@@ -43,6 +42,7 @@ Out of the box, this plugin adds a colored border to the top of the admin panel 
 You can customize any behaviour via the plugin object.
 
 ### Customizing the view
+
 Use `php artisan vendor:publish --tag="filament-environment-indicator-views"` to publish the view to the `resources/views/vendor/filament-environment-indicator` folder. After this you can customize it as you wish!
 
 ### Visibility
@@ -87,7 +87,7 @@ use Filament\Support\Colors\Color;
 $panel->plugins([
     EnvironmentIndicatorPlugin::make()
         ->showBadge(false)
-        ->showBorder(true)            
+        ->showBorder(true)
 ]);
 ```
 
@@ -101,7 +101,7 @@ use Filament\Support\Colors\Color;
 
 $panel->plugins([
     EnvironmentIndicatorPlugin::make()
-        ->showGitBranch()                    
+        ->showGitBranch()
 ]);
 ```
 
@@ -131,5 +131,6 @@ Install the packages in your app's `composer.json`:
 Now, run `composer update`.
 
 ## Credits
+
 - [Dennis Koch](https://github.com/pxlrbt)
 - [All Contributors](../../contributors)
