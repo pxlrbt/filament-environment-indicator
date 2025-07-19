@@ -25,7 +25,6 @@
       "pxlrbt\\FilamentEnvironmentIndicator\\": "src/"
     }
   },
-  "minimum-stability": "beta",
   "extra": {
     "laravel": {
       "providers": [
