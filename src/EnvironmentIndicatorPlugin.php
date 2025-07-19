@@ -25,6 +25,8 @@ class EnvironmentIndicatorPlugin implements Plugin
 
     public bool|Closure|null $showGitBranch = null;
 
+    public bool|Closure|null $checkDebugInProduction = null;
+
     public static function make(): static
     {
         $plugin = app(static::class);
@@ -59,6 +61,11 @@ class EnvironmentIndicatorPlugin implements Plugin
             default => true,
         });
 
+        $plugin->checkDebugInProduction(fn () => match (app()->environment()) {
+            'production' => true,
+            default => false,
+        });
+
         return $plugin;
     }
 
@@ -77,6 +84,10 @@ class EnvironmentIndicatorPlugin implements Plugin
         $panel->renderHook('panels::global-search.before', function () {
             if (! $this->evaluate($this->visible)) {
                 return '';
+            }
+
+            if ($this->isDebugModeInProduction()) {
+                $this->showBorder();
             }
 
             if (! $this->evaluate($this->showBadge)) {
@@ -142,6 +153,13 @@ class EnvironmentIndicatorPlugin implements Plugin
         return $this;
     }
 
+    public function checkDebugInProduction(bool|Closure $checkDebugInProduction = true): static
+    {
+        $this->checkDebugInProduction = $checkDebugInProduction;
+
+        return $this;
+    }
+
     public function color(array|Closure $color = Color::Pink): static
     {
         $this->color = $color;
@@ -165,5 +183,10 @@ class EnvironmentIndicatorPlugin implements Plugin
         } catch (Throwable $th) {
             return null;
         }
+    }
+
+    protected function isDebugModeInProduction(): bool
+    {
+        return $this->evaluate($this->checkDebugInProduction) && app()->environment('production') && config('app.debug', false);
     }
 }
