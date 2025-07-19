@@ -51,19 +51,19 @@ class EnvironmentIndicatorPlugin implements Plugin
             default => Color::Pink,
         });
 
-        $plugin->showBadge(fn () => match (app()->environment()) {
-            'production' => false,
-            default => true,
-        });
-
-        $plugin->showBorder(fn () => match (app()->environment()) {
-            'production' => false,
-            default => true,
-        });
-
         $plugin->checkDebugInProduction(fn () => match (app()->environment()) {
             'production' => true,
             default => false,
+        });
+
+        $plugin->showBadge(fn () => $plugin->isDebugModeInProduction() || match (app()->environment()) {
+            'production' => false,
+            default => true,
+        });
+
+        $plugin->showBorder(fn () => $plugin->isDebugModeInProduction() || match (app()->environment()) {
+            'production' => false,
+            default => true,
         });
 
         return $plugin;
@@ -86,10 +86,6 @@ class EnvironmentIndicatorPlugin implements Plugin
                 return '';
             }
 
-            if ($this->isDebugModeInProduction()) {
-                $this->showBorder();
-            }
-
             if (! $this->evaluate($this->showBadge)) {
                 return '';
             }
@@ -98,6 +94,7 @@ class EnvironmentIndicatorPlugin implements Plugin
                 'color' => $this->getColor(),
                 'environment' => ucfirst(app()->environment()),
                 'branch' => $this->getGitBranch(),
+                'showDebugMode' => $this->isDebugModeInProduction(),
             ]);
         });
 
