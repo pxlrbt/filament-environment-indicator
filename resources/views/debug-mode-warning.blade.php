@@ -3,15 +3,23 @@
     use Filament\Support\Icons\Heroicon;
     use function Filament\Support\get_color_css_variables;
     use function Filament\Support\generate_icon_html;
+
+    $color = Color::Red;
 @endphp
 <div
     class="
-        debug-mode-indicator
-        fi-badge fi-color fi-text-color-600
-        dark:fi-text-color-400
+        environment-indicator hidden sm:flex items-center h-9 px-3 text-sm font-medium
+        rounded-lg shadow-sm ring-1
+        ring-custom-600/20 bg-custom-50 text-custom-600
+        dark:ring-custom-400/30 dark:bg-custom-400/10 dark:text-custom-400
     "
-    style="{{ get_color_css_variables(Color::Red, [50, 300, 400, 600])  }}"
+    style="
+        --c-50: {{ $color[50] }};
+        --c-300: {{ $color[300] }};
+        --c-400: {{ $color[400] }};
+        --c-600: {{ $color[600] }};
+    "
 >
-    {{ generate_icon_html(Heroicon::OutlinedExclamationTriangle) }}
+    @svg('heroicon-o-exclamation-triangle', ['style' => 'width: 20px; margin-right: 0.25rem'])
     Debug Mode
 </div>
