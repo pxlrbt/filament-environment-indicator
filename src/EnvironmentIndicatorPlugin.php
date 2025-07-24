@@ -25,7 +25,7 @@ class EnvironmentIndicatorPlugin implements Plugin
 
     public bool|Closure|null $showGitBranch = null;
 
-    public bool|Closure|null $checkDebugInProduction = null;
+    public bool|Closure|null $showDebugModeWarning = null;
 
     public static function make(): static
     {
@@ -51,17 +51,12 @@ class EnvironmentIndicatorPlugin implements Plugin
             default => Color::Pink,
         });
 
-        $plugin->checkDebugInProduction(fn () => match (app()->environment()) {
-            'production' => true,
-            default => false,
-        });
-
-        $plugin->showBadge(fn () => $plugin->isDebugModeInProduction() || match (app()->environment()) {
+        $plugin->showBadge(fn () => match (app()->environment()) {
             'production' => false,
             default => true,
         });
 
-        $plugin->showBorder(fn () => $plugin->isDebugModeInProduction() || match (app()->environment()) {
+        $plugin->showBorder(fn () => match (app()->environment()) {
             'production' => false,
             default => true,
         });
@@ -82,19 +77,30 @@ class EnvironmentIndicatorPlugin implements Plugin
     public function register(Panel $panel): void
     {
         $panel->renderHook('panels::global-search.before', function () {
+            $html = '';
+
             if (! $this->evaluate($this->visible)) {
-                return '';
+                return $html;
             }
 
-            if (! $this->evaluate($this->showBadge)) {
-                return '';
+
+            if ($this->evaluate($this->showDebugModeWarning) && app()->hasDebugModeEnabled()) {
+                $html .= view('filament-environment-indicator::debug-mode-warning', [
+                    'color' => $this->getColor(),
+                    'environment' => ucfirst(app()->environment()),
+                    'branch' => $this->getGitBranch()
+                ])->render();
             }
 
-            return View::make('filament-environment-indicator::badge', [
-                'color' => $this->getColor(),
-                'environment' => ucfirst(app()->environment()),
-                'branch' => $this->getGitBranch()
-            ]);
+            if ($this->evaluate($this->showBadge)) {
+                $html .= view('filament-environment-indicator::badge', [
+                    'color' => $this->getColor(),
+                    'environment' => ucfirst(app()->environment()),
+                    'branch' => $this->getGitBranch()
+                ])->render();
+            }
+
+            return $html;
         });
 
         $panel->renderHook('panels::styles.after', function () {
@@ -149,9 +155,16 @@ class EnvironmentIndicatorPlugin implements Plugin
         return $this;
     }
 
-    public function checkDebugInProduction(bool|Closure $checkDebugInProduction = true): static
+    public function showDebugModeWarning(bool|Closure $showWarning = true): static
     {
-        $this->checkDebugInProduction = $checkDebugInProduction;
+        $this->showDebugModeWarning = $showWarning;
+
+        return $this;
+    }
+
+    public function showDebugModeWarningInProduction(): static
+    {
+        $this->showDebugModeWarning(fn () => app()->isProduction());
 
         return $this;
     }
@@ -179,10 +192,5 @@ class EnvironmentIndicatorPlugin implements Plugin
         } catch (Throwable $th) {
             return null;
         }
-    }
-
-    protected function isDebugModeInProduction(): bool
-    {
-        return $this->evaluate($this->checkDebugInProduction) && app()->environment('production') && config('app.debug', false);
     }
 }
