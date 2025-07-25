@@ -25,6 +25,8 @@ class EnvironmentIndicatorPlugin implements Plugin
 
     public bool|Closure|null $showGitBranch = null;
 
+    public bool|Closure|null $showDebugModeWarning = null;
+
     public static function make(): static
     {
         $plugin = app(static::class);
@@ -75,19 +77,30 @@ class EnvironmentIndicatorPlugin implements Plugin
     public function register(Panel $panel): void
     {
         $panel->renderHook('panels::global-search.before', function () {
+            $html = '';
+
             if (! $this->evaluate($this->visible)) {
-                return '';
+                return $html;
             }
 
-            if (! $this->evaluate($this->showBadge)) {
-                return '';
+
+            if ($this->evaluate($this->showDebugModeWarning) && app()->hasDebugModeEnabled()) {
+                $html .= view('filament-environment-indicator::debug-mode-warning', [
+                    'color' => $this->getColor(),
+                    'environment' => ucfirst(app()->environment()),
+                    'branch' => $this->getGitBranch()
+                ])->render();
             }
 
-            return View::make('filament-environment-indicator::badge', [
-                'color' => $this->getColor(),
-                'environment' => ucfirst(app()->environment()),
-                'branch' => $this->getGitBranch(),
-            ]);
+            if ($this->evaluate($this->showBadge)) {
+                $html .= view('filament-environment-indicator::badge', [
+                    'color' => $this->getColor(),
+                    'environment' => ucfirst(app()->environment()),
+                    'branch' => $this->getGitBranch()
+                ])->render();
+            }
+
+            return $html;
         });
 
         $panel->renderHook('panels::styles.after', function () {
@@ -138,6 +151,20 @@ class EnvironmentIndicatorPlugin implements Plugin
     public function showGitBranch(bool|Closure $showGitBranch = true): static
     {
         $this->showGitBranch = $showGitBranch;
+
+        return $this;
+    }
+
+    public function showDebugModeWarning(bool|Closure $showWarning = true): static
+    {
+        $this->showDebugModeWarning = $showWarning;
+
+        return $this;
+    }
+
+    public function showDebugModeWarningInProduction(): static
+    {
+        $this->showDebugModeWarning(fn () => app()->isProduction());
 
         return $this;
     }

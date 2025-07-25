@@ -106,6 +106,20 @@ $panel->plugins([
 ]);
 ```
 
+### Debug Mode Warning
+
+You can enable a debug mode warning for every environment or just for production by using `->showDebugModeWarning()`/`->showDebugModeWarningInProduction()`
+
+```php
+use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
+use Filament\Support\Colors\Color;
+
+$panel->plugins([
+    EnvironmentIndicatorPlugin::make()
+        ->showDebugModeWarningInProduction()            
+]);
+```
+
 ## Contributing
 
 If you want to contribute to this packages, you may want to test it in a real Filament project:
