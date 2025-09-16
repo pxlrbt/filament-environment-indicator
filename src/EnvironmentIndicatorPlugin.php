@@ -7,6 +7,7 @@ use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
 use Filament\Support\Concerns\EvaluatesClosures;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\HtmlString;
 use Throwable;
@@ -22,6 +23,8 @@ class EnvironmentIndicatorPlugin implements Plugin
     public bool|Closure|null $showBorder = null;
 
     public array|Closure|null $color = null;
+
+    public string|null $badgePosition = null;
 
     public bool|Closure|null $showGitBranch = null;
 
@@ -76,13 +79,12 @@ class EnvironmentIndicatorPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $panel->renderHook('panels::global-search.before', function () {
+        $panel->renderHook($this->getBadgePosition(), function () {
             $html = '';
 
             if (! $this->evaluate($this->visible)) {
                 return $html;
             }
-
 
             if ($this->evaluate($this->showDebugModeWarning) && app()->hasDebugModeEnabled()) {
                 $html .= view('filament-environment-indicator::debug-mode-warning', [
@@ -173,6 +175,18 @@ class EnvironmentIndicatorPlugin implements Plugin
         $this->color = $color;
 
         return $this;
+    }
+
+    public function badgePosition(string $position): static
+    {
+        $this->badgePosition = $position;
+
+        return $this;
+    }
+
+    protected function getBadgePosition(): string
+    {
+        return $this->badgePosition ?: PanelsRenderHook::GLOBAL_SEARCH_BEFORE;
     }
 
     protected function getColor(): array

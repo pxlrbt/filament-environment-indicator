@@ -92,6 +92,20 @@ $panel->plugins([
 ]);
 ```
 
+### Badge position
+
+By default, badge position is `\Filament\View\PanelsRenderHook::GLOBAL_SEARCH_BEFORE`.
+
+```php
+use Filament\View\PanelsRenderHook;
+use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
+
+$panel->plugins([
+    EnvironmentIndicatorPlugin::make()
+        ->badgePosition(PanelsRenderHook::TOPBAR_LOGO_BEFORE)
+]);
+```
+
 ### Git Branch
 
 You can enable the display of the current git branch in the badge via `->showGitBranch()`. This requires the `exec()` function to be enabled in your PHP configuration.
