@@ -8,7 +8,6 @@ use Filament\Panel;
 use Filament\Support\Colors\Color;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\View\PanelsRenderHook;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\HtmlString;
 use Throwable;
 
@@ -24,7 +23,7 @@ class EnvironmentIndicatorPlugin implements Plugin
 
     public array|Closure|null $color = null;
 
-    public string|null $badgePosition = null;
+    public ?string $badgePosition = null;
 
     public bool|Closure|null $showGitBranch = null;
 
@@ -90,7 +89,7 @@ class EnvironmentIndicatorPlugin implements Plugin
                 $html .= view('filament-environment-indicator::debug-mode-warning', [
                     'color' => $this->getColor(),
                     'environment' => ucfirst(app()->environment()),
-                    'branch' => $this->getGitBranch()
+                    'branch' => $this->getGitBranch(),
                 ])->render();
             }
 
@@ -98,7 +97,7 @@ class EnvironmentIndicatorPlugin implements Plugin
                 $html .= view('filament-environment-indicator::badge', [
                     'color' => $this->getColor(),
                     'environment' => ucfirst(app()->environment()),
-                    'branch' => $this->getGitBranch()
+                    'branch' => $this->getGitBranch(),
                 ])->render();
             }
 
