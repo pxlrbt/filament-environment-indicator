@@ -7,7 +7,7 @@
         fi-badge fi-color fi-text-color-600
         dark:fi-text-color-400
     "
-    style="{{ get_color_css_variables($color, [50, 300, 400, 500, 600])  }}"
+    style="{{ get_color_css_variables($color, [50, 100, 200, 300, 400, 500, 600, 700])  }}"
 >
     {{ $environment }}
 
