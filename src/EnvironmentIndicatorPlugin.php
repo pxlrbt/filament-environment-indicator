@@ -29,6 +29,8 @@ class EnvironmentIndicatorPlugin implements Plugin
 
     public bool|Closure|null $showDebugModeWarning = null;
 
+    public int|Closure|null $borderWidth = 5;
+
     public static function make(): static
     {
         $plugin = app(static::class);
@@ -115,8 +117,13 @@ class EnvironmentIndicatorPlugin implements Plugin
 
             return new HtmlString("
                 <style>
+                    .fi-topbar,
+                    .fi-sidebar {
+                        border-top: {$this->evaluate($this->borderWidth)}px solid rgb({$this->getColor()['500']}) !important;
+                    }
+
                     .fi-topbar {
-                        border-top: 5px solid {$this->getColor()['500']} !important;
+                        height: calc(4rem + {$this->evaluate($this->borderWidth)}px) !important;
                     }
                 </style>
             ");
@@ -200,5 +207,12 @@ class EnvironmentIndicatorPlugin implements Plugin
         } catch (Throwable $th) {
             return null;
         }
+    }
+
+    public function borderWidth(int|Closure $borderWidth = 5): static
+    {
+        $this->borderWidth = $borderWidth;
+
+        return $this;
     }
 }
