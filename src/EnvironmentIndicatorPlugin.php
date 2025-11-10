@@ -120,11 +120,6 @@ class EnvironmentIndicatorPlugin implements Plugin
                     .fi-topbar,
                     .fi-sidebar {
                         border-top: {$this->evaluate($this->borderWidth)}px solid rgb({$this->getColor()['500']}) !important;
-                    }
-
-                    .fi-topbar {
-                        height: calc(4rem + {$this->evaluate($this->borderWidth)}px) !important;
-                    }
                 </style>
             ");
         });
