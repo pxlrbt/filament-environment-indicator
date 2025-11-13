@@ -118,7 +118,7 @@ class EnvironmentIndicatorPlugin implements Plugin
             return new HtmlString("
                 <style>
                     .fi-topbar {
-                        border-top: {$this->evaluate($this->borderWidth)}px solid rgb({$this->getColor()['500']}) !important;
+                        border-top: {$this->evaluate($this->borderWidth)}px solid {$this->getColor()['500']} !important;
                     }
                 </style>
             ");
