@@ -31,6 +31,8 @@ class EnvironmentIndicatorPlugin implements Plugin
 
     public int|Closure|null $borderWidth = 5;
 
+    public string|Closure|null $environment = null;
+
     public static function make(): static
     {
         $plugin = app(static::class);
@@ -48,19 +50,19 @@ class EnvironmentIndicatorPlugin implements Plugin
             return true;
         });
 
-        $plugin->color(fn () => match (app()->environment()) {
+        $plugin->color(fn () => match ($plugin->getEnvironment()) {
             'production' => Color::Red,
             'staging' => Color::Orange,
             'development' => Color::Blue,
             default => Color::Pink,
         });
 
-        $plugin->showBadge(fn () => match (app()->environment()) {
+        $plugin->showBadge(fn () => match ($plugin->getEnvironment()) {
             'production' => false,
             default => true,
         });
 
-        $plugin->showBorder(fn () => match (app()->environment()) {
+        $plugin->showBorder(fn () => match ($plugin->getEnvironment()) {
             'production' => false,
             default => true,
         });
@@ -90,7 +92,7 @@ class EnvironmentIndicatorPlugin implements Plugin
             if ($this->evaluate($this->showDebugModeWarning) && app()->hasDebugModeEnabled()) {
                 $html .= view('filament-environment-indicator::debug-mode-warning', [
                     'color' => $this->getColor(),
-                    'environment' => ucfirst(app()->environment()),
+                    'environment' => ucfirst($this->getEnvironment()),
                     'branch' => $this->getGitBranch(),
                 ])->render();
             }
@@ -98,7 +100,7 @@ class EnvironmentIndicatorPlugin implements Plugin
             if ($this->evaluate($this->showBadge)) {
                 $html .= view('filament-environment-indicator::badge', [
                     'color' => $this->getColor(),
-                    'environment' => ucfirst(app()->environment()),
+                    'environment' => ucfirst($this->getEnvironment()),
                     'branch' => $this->getGitBranch(),
                 ])->render();
             }
@@ -209,5 +211,17 @@ class EnvironmentIndicatorPlugin implements Plugin
         $this->borderWidth = $borderWidth;
 
         return $this;
+    }
+
+    public function environment(string|Closure $environment): static
+    {
+        $this->environment = $environment;
+
+        return $this;
+    }
+
+    public function getEnvironment(): string
+    {
+        return $this->evaluate($this->environment) ?? app()->environment();
     }
 }
