@@ -59,6 +59,21 @@ $panel->plugins([
 ]);
 ```
 
+### Environment
+
+By default, the environment is resolved from `app()->environment()` (i.e. the `APP_ENV` value). You can override it with a static string or a closure:
+
+```php
+use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
+
+$panel->plugins([
+    EnvironmentIndicatorPlugin::make()
+        ->environment(fn () => config('app.custom_env', app()->environment()))
+]);
+```
+
+This affects the badge label, as well as the default color, badge visibility, and border visibility which all key off the environment value.
+
 ### Colors
 
 You can overwrite the default colors if you want your own colors or need to add more. The `->color()`method accepts any Filament's Color object or a closure that returns a color object.
