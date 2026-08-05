@@ -9,7 +9,6 @@ use Filament\Support\Colors\Color;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\HtmlString;
-use Throwable;
 
 class EnvironmentIndicatorPlugin implements Plugin
 {
@@ -26,6 +25,8 @@ class EnvironmentIndicatorPlugin implements Plugin
     public ?string $badgePosition = null;
 
     public bool|Closure|null $showGitBranch = null;
+
+    public ?Closure $gitInfo = null;
 
     public bool|Closure|null $showDebugModeWarning = null;
 
@@ -93,7 +94,7 @@ class EnvironmentIndicatorPlugin implements Plugin
                 $html .= view('filament-environment-indicator::debug-mode-warning', [
                     'color' => $this->getColor(),
                     'environment' => ucfirst($this->getEnvironment()),
-                    'branch' => $this->getGitBranch(),
+                    'branch' => $this->resolveGitInfo(),
                 ])->render();
             }
 
@@ -101,7 +102,7 @@ class EnvironmentIndicatorPlugin implements Plugin
                 $html .= view('filament-environment-indicator::badge', [
                     'color' => $this->getColor(),
                     'environment' => ucfirst($this->getEnvironment()),
-                    'branch' => $this->getGitBranch(),
+                    'branch' => $this->resolveGitInfo(),
                 ])->render();
             }
 
@@ -162,6 +163,20 @@ class EnvironmentIndicatorPlugin implements Plugin
         return $this;
     }
 
+    /**
+     * Display custom git information in the badge. The closure receives a
+     * GitInfo instance (also injectable by type) exposing branch(), tag()
+     * and hash(), and returns the string to render.
+     *
+     * Example: ->showGitInfo(fn (GitInfo $git) => $git->tag().' - '.$git->hash())
+     */
+    public function showGitInfo(Closure $callback): static
+    {
+        $this->gitInfo = $callback;
+
+        return $this;
+    }
+
     public function showDebugModeWarning(bool|Closure $showWarning = true): static
     {
         $this->showDebugModeWarning = $showWarning;
@@ -208,17 +223,28 @@ class EnvironmentIndicatorPlugin implements Plugin
         return $this->evaluate($this->color);
     }
 
-    protected function getGitBranch(): ?string
+    /**
+     * Resolve the git string shown in the badge.
+     *
+     * A ->showGitInfo() closure takes precedence; otherwise ->showGitBranch()
+     * falls back to the branch name (implemented on top of the same GitInfo).
+     * Returns null when neither is enabled, so the view renders nothing.
+     */
+    protected function resolveGitInfo(): ?string
     {
-        if (! $this->evaluate($this->showGitBranch)) {
-            return null;
+        $git = new GitInfo;
+
+        if ($this->gitInfo !== null) {
+            $result = $this->evaluate($this->gitInfo, ['git' => $git], [GitInfo::class => $git]);
+
+            return $result === null || $result === '' ? null : (string) $result;
         }
 
-        try {
-            return trim(exec('git branch --show-current'));
-        } catch (Throwable $th) {
-            return null;
+        if ($this->evaluate($this->showGitBranch)) {
+            return $git->branch();
         }
+
+        return null;
     }
 
     public function borderWidth(int|Closure $borderWidth = 5): static

@@ -10,6 +10,14 @@
         margin-block-start: 1px;
         margin-inline-start: 0.25rem;
         font-size: var(--text-xs);
+
+        /* Keep the badge compact: truncate long tags/hashes, full value on hover. */
+        display: inline-block;
+        max-width: 12rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: bottom;
     }
 }
 
