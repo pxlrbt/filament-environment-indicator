@@ -135,6 +135,27 @@ $panel->plugins([
 ]);
 ```
 
+### Git Info (tag, hash, custom)
+
+For anything beyond the branch — a git tag, the short commit hash, or a custom combination — use `->showGitInfo()`. It receives a `GitInfo` instance exposing `branch()`, `tag()` and `hash()` (each resolved lazily via `exec()` and cached), and returns the string to render in the badge. Any lookup returns `null` when unavailable, so guard accordingly.
+
+```php
+use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
+use pxlrbt\FilamentEnvironmentIndicator\GitInfo;
+
+$panel->plugins([
+    EnvironmentIndicatorPlugin::make()
+        // e.g. "2.2.0 - 12345678", or just the hash on dev
+        ->showGitInfo(fn (GitInfo $git) => match (app()->environment()) {
+            'production' => $git->tag().' - '.$git->hash(),
+            'staging' => ($git->tag() ?? $git->branch()).' - '.$git->hash(),
+            default => $git->hash(),
+        })
+]);
+```
+
+`->showGitBranch()` is a convenience wrapper around this same mechanism. `->showGitInfo()` takes precedence when both are set. Long values are truncated in the badge to keep it compact; the full value is shown on hover.
+
 ### Debug Mode Warning
 
 You can enable a debug mode warning for every environment or just for production by using `->showDebugModeWarning()`/`->showDebugModeWarningInProduction()`

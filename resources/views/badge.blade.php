@@ -12,6 +12,6 @@
     {{ $environment }}
 
     @isset($branch)
-        <code>({{ $branch }})</code>
+        <code title="{{ $branch }}">({{ $branch }})</code>
     @endisset
 </div>
