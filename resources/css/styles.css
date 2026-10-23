@@ -25,3 +25,8 @@
     flex-shrink: 0;
     margin-inline: -0.5rem;
 }
+
+/* Filament hides the logo in the collapsed sidebar, so hide the badge next to it as well. */
+.fi-main-sidebar:not(.fi-sidebar-open) :is(.environment-indicator, .debug-mode-indicator) {
+    display: none;
+}
